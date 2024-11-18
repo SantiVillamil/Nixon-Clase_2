@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,13 +18,8 @@ public class Solicitud {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer solicitudId;
 
-    @ManyToOne
-    @JoinColumn(name = "persona_id", nullable = false)
-    private Persona persona;
-
-    @ManyToOne
-    @JoinColumn(name = "producto_id", nullable = false)
-    private Producto producto;
+    private int persona_id;
+    private int producto_id;
 
     @Column(nullable = false)
     private Date fechaSolicitud;
@@ -53,11 +46,11 @@ public class Solicitud {
     public Integer getSolicitudId() { return solicitudId; }
     public void setSolicitudId(Integer solicitudId) { this.solicitudId = solicitudId; }
 
-    public Persona getPersona() { return persona; }
-    public void setPersona(Persona persona) { this.persona = persona; }
+    public Integer getPersona () { return persona_id; }
+    public void setPersona(Integer persona_id) { this.persona_id = persona_id; }
 
-    public Producto getProducto() { return producto; }
-    public void setProducto(Producto producto) { this.producto = producto; }
+    public Integer getProducto() { return producto_id; }
+    public void setProducto(Integer producto) { this.producto_id = producto; }
 
     public Date getFechaSolicitud() { return fechaSolicitud; }
     public void setFechaSolicitud(Date fechaSolicitud) { this.fechaSolicitud = fechaSolicitud; }

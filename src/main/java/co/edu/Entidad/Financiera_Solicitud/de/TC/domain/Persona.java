@@ -50,6 +50,9 @@ public class Persona {
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal ingresoMensual;
     
+    @Column(nullable = false)
+    private int tp_personaID;
+    
     public Integer getPersonaId() { return personaId; }
     public void setPersonaId(Integer personaId) { this.personaId = personaId; }
 
@@ -86,5 +89,11 @@ public class Persona {
     public BigDecimal getIngresoMensual() { return ingresoMensual; }
     public void setIngresoMensual(BigDecimal ingresoMensual) { this.ingresoMensual = ingresoMensual; }
     
+    public int getId_tp() {
+    return tp_personaID;
+    }
+    public void setId_tp(int id_tp) {
+    this.tp_personaID = id_tp;
+    }
 }
 

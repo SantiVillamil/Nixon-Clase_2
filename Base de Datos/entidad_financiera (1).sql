@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2024 at 04:36 AM
+-- Generation Time: Nov 18, 2024 at 05:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,17 +39,18 @@ CREATE TABLE `persona` (
   `email` varchar(100) NOT NULL,
   `estado_civil` varchar(20) NOT NULL,
   `nivel_educativo` varchar(50) NOT NULL,
-  `ingreso_mensual` decimal(15,2) NOT NULL
+  `ingreso_mensual` decimal(15,2) NOT NULL,
+  `tp_personaID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `persona`
 --
 
-INSERT INTO `persona` (`persona_id`, `nombre`, `apellido`, `tipo_identificacion`, `numero_identificacion`, `fecha_nacimiento`, `direccion`, `telefono`, `email`, `estado_civil`, `nivel_educativo`, `ingreso_mensual`) VALUES
-(1, 'Carlos', 'Pérez', 'DNI', '123456789', '1985-03-15', 'Calle 123, Ciudad', '555-1234', 'carlos.perez@mail.com', 'Soltero', 'Universitario', 3000.00),
-(2, 'Ana', 'Martínez', 'DNI', '987654321', '1990-07-22', 'Avenida 45, Ciudad', '555-5678', 'ana.martinez@mail.com', 'Casada', 'Secundaria', 2500.00),
-(3, 'Luis', 'Gómez', 'Pasaporte', 'A1234567', '1978-11-30', 'Carrera 7, Ciudad', '555-9101', 'luis.gomez@mail.com', 'Divorciado', 'Primaria', 1800.00);
+INSERT INTO `persona` (`persona_id`, `nombre`, `apellido`, `tipo_identificacion`, `numero_identificacion`, `fecha_nacimiento`, `direccion`, `telefono`, `email`, `estado_civil`, `nivel_educativo`, `ingreso_mensual`, `tp_personaID`) VALUES
+(7, 'Carlos', 'Pérez', 'DNI', '123456789', '1985-03-15', 'Calle 123, Ciudad', '555-1234', 'carlos.perez@mail.com', 'Soltero', 'Universitario', 3000.00, 1),
+(8, 'Ana', 'Martínez', 'DNI', '987654321', '1990-07-22', 'Avenida 45, Ciudad', '555-5678', 'ana.martinez@mail.com', 'Casada', 'Secundaria', 2500.00, 2),
+(9, 'Luis', 'Gómez', 'Pasaporte', 'A1234567', '1978-11-30', 'Carrera 7, Ciudad', '555-9101', 'luis.gomez@mail.com', 'Divorciado', 'Primaria', 1800.00, 1);
 
 -- --------------------------------------------------------
 
@@ -100,9 +101,29 @@ CREATE TABLE `solicitud` (
 --
 
 INSERT INTO `solicitud` (`solicitud_id`, `persona_id`, `producto_id`, `fecha_solicitud`, `estado`, `monto_solicitado`, `resultado_verificacion`, `fecha_aprobacion`, `fecha_rechazo`, `comentarios`) VALUES
-(1, 1, 1, '2024-11-01', 'Aprobada', 3000.00, 'Aprobado', '2024-11-02', '2024-11-02', 'Cliente cumple con los requisitos para la tarjeta de crédito'),
-(2, 2, 2, '2024-11-03', 'Rechazada', 10000.00, 'Riesgo alto', '2024-11-04', '2024-11-04', 'Cliente en lista negra en DataCredito'),
-(3, 3, 3, '2024-11-05', 'Pendiente', 20000.00, 'Pendiente', '2024-11-06', '2024-11-06', 'Pendiente de verificación de documentos');
+(13, 8, 1, '2024-11-13', 'Aprobado', 5000.00, 'Ccbhdbsd', '2024-11-14', '2024-11-14', 'egesgsdfv'),
+(20, 7, 1, '2024-11-01', 'Aprobada', 3000.00, 'Aprobado', '2024-11-02', '2024-11-02', 'Cliente cumple con los requisitos para la tarjeta de crédito'),
+(21, 8, 2, '2024-11-03', 'Rechazada', 10000.00, 'Riesgo alto', '2024-11-04', '2024-11-04', 'Cliente en lista negra en DataCredito'),
+(22, 9, 3, '2024-11-05', 'Pendiente', 20000.00, 'Pendiente', '2024-11-06', '2024-11-06', 'Pendiente de verificación de documentos');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tipo_persona`
+--
+
+CREATE TABLE `tipo_persona` (
+  `id_tp` int(11) NOT NULL,
+  `nombre_tp` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tipo_persona`
+--
+
+INSERT INTO `tipo_persona` (`id_tp`, `nombre_tp`) VALUES
+(1, 'Admin'),
+(2, 'Usuario');
 
 --
 -- Indexes for dumped tables
@@ -113,7 +134,8 @@ INSERT INTO `solicitud` (`solicitud_id`, `persona_id`, `producto_id`, `fecha_sol
 --
 ALTER TABLE `persona`
   ADD PRIMARY KEY (`persona_id`),
-  ADD UNIQUE KEY `numero_identificacion` (`numero_identificacion`);
+  ADD UNIQUE KEY `numero_identificacion` (`numero_identificacion`),
+  ADD KEY `fk_tp_persona` (`tp_personaID`);
 
 --
 -- Indexes for table `producto`
@@ -126,8 +148,14 @@ ALTER TABLE `producto`
 --
 ALTER TABLE `solicitud`
   ADD PRIMARY KEY (`solicitud_id`),
-  ADD KEY `persona_id` (`persona_id`),
-  ADD KEY `producto_id` (`producto_id`);
+  ADD KEY `solicitud_ibfk_1` (`persona_id`),
+  ADD KEY `solicitud_ibfk_2` (`producto_id`);
+
+--
+-- Indexes for table `tipo_persona`
+--
+ALTER TABLE `tipo_persona`
+  ADD PRIMARY KEY (`id_tp`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -137,7 +165,7 @@ ALTER TABLE `solicitud`
 -- AUTO_INCREMENT for table `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `persona_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `persona_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `producto`
@@ -149,18 +177,30 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT for table `solicitud`
 --
 ALTER TABLE `solicitud`
-  MODIFY `solicitud_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `solicitud_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `tipo_persona`
+--
+ALTER TABLE `tipo_persona`
+  MODIFY `id_tp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `persona`
+--
+ALTER TABLE `persona`
+  ADD CONSTRAINT `fk_tp_persona` FOREIGN KEY (`tp_personaID`) REFERENCES `tipo_persona` (`id_tp`);
+
+--
 -- Constraints for table `solicitud`
 --
 ALTER TABLE `solicitud`
-  ADD CONSTRAINT `solicitud_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`),
-  ADD CONSTRAINT `solicitud_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`);
+  ADD CONSTRAINT `solicitud_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `solicitud_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
