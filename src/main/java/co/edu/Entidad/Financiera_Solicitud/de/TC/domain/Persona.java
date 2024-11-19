@@ -1,3 +1,4 @@
+//Esta es una clase de prueba
 package co.edu.Entidad.Financiera_Solicitud.de.TC.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
